@@ -2,13 +2,16 @@ package com.github.psinalberth.user.adapter.persistence.repository;
 
 import com.github.psinalberth.user.adapter.persistence.entity.UserPanacheEntity;
 import com.github.psinalberth.user.application.repository.UserDatabaseRepository;
+import com.github.psinalberth.user.domain.model.Friend;
 import com.github.psinalberth.user.domain.model.User;
 import io.quarkus.mongodb.panache.reactive.ReactivePanacheMongoRepository;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.groups.UniOnNotNull;
 import org.bson.types.ObjectId;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Collections;
 
 @ApplicationScoped
 public class UserPanacheReactiveMongoRepository implements UserDatabaseRepository,
@@ -54,6 +57,18 @@ public class UserPanacheReactiveMongoRepository implements UserDatabaseRepositor
                 })
                 .call(this::update)
                 .map(UserPanacheEntity::toUser);
+    }
+
+    @Override
+    public Multi<Friend> loadFriends(User user) {
+        return retrieveUser(user)
+                .transform(me -> me.friends)
+                .replaceIfNullWith(Collections.emptySet())
+                .toMulti()
+                .flatMap(userPanacheEntities -> Multi.createFrom().iterable(userPanacheEntities))
+                .flatMap(u -> loadById(u.id.toString()).toMulti())
+                .map(u -> Friend.of(u.getId(), u.getUsername()));
+
     }
 
     private UniOnNotNull<UserPanacheEntity> retrieveUser(User user) {

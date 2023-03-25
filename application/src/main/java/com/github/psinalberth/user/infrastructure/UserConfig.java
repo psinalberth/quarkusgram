@@ -11,7 +11,9 @@ import com.github.psinalberth.user.application.repository.UserDatabaseRepository
 import com.github.psinalberth.user.application.repository.UserRepository;
 import com.github.psinalberth.user.application.service.BeFriendsUserService;
 import com.github.psinalberth.user.application.service.FriendshipMaker;
+import com.github.psinalberth.user.application.service.GetFriendsUserService;
 import com.github.psinalberth.user.application.service.RegisterUserService;
+import com.github.psinalberth.user.application.service.friendship.LoadFriendsPort;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.enterprise.event.Observes;
@@ -37,6 +39,11 @@ public class UserConfig {
     }
 
     @Produces
+    public GetFriendsUserService getFriendsUserService(LoadUserPort loadUserPort, LoadFriendsPort loadFriendsPort) {
+        return new GetFriendsUserService(loadUserPort, loadFriendsPort);
+    }
+
+    @Produces
     public RegisterUserService registerUserService(LoadUserPort loadUserPort, SaveUserPort saveUserPort,
                                                    UserMapper masss, Events events,
                                                    PasswordEncryptorGateway passwordEncryptorGateway) {
@@ -46,10 +53,5 @@ public class UserConfig {
     @Produces
     public BeFriendsUserService beFriendsUserService(LoadUserPort loadUserPort, FriendshipMaker friendshipMaker) {
         return new BeFriendsUserService(loadUserPort, friendshipMaker);
-    }
-
-    public void afterBean(final @Observes @WithAnnotations(Produces.class) AfterBeanDiscovery afterBeanDiscovery) {
-
-        afterBeanDiscovery.getAnnotatedTypes(RegisterUserService.class).forEach(System.out::println);
     }
 }

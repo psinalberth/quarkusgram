@@ -1,6 +1,4 @@
 quarkus:
-  banner:
-    enabled: false
   mongodb:
     connection-string: mongodb://localhost:27017
     database: quarkusgram

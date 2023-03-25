@@ -1,6 +1,8 @@
 package com.github.psinalberth.user.application.repository;
 
+import com.github.psinalberth.user.domain.model.Friend;
 import com.github.psinalberth.user.domain.model.User;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
 public interface UserDatabaseRepository {
@@ -13,4 +15,6 @@ public interface UserDatabaseRepository {
     Uni<User> addFriend(User user, User friend);
 
     Uni<User> requestFriendship(User user, User friend);
+
+    Multi<Friend> loadFriends(User user);
 }
