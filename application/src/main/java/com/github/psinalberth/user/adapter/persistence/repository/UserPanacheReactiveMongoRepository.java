@@ -1,5 +1,6 @@
 package com.github.psinalberth.user.adapter.persistence.repository;
 
+import com.github.psinalberth.user.adapter.persistence.entity.FriendPanacheEntity;
 import com.github.psinalberth.user.adapter.persistence.entity.UserPanacheEntity;
 import com.github.psinalberth.user.application.repository.UserDatabaseRepository;
 import com.github.psinalberth.user.domain.model.Friend;
@@ -41,7 +42,7 @@ public class UserPanacheReactiveMongoRepository implements UserDatabaseRepositor
     public Uni<User> addFriend(User user, User friend) {
         return retrieveUser(user)
                 .transform(me -> {
-                    me.addFriend(new UserPanacheEntity(friend.getId()));
+                    me.addFriend(new FriendPanacheEntity(friend.getId()));
                     return me;
                 })
                 .call(this::update)

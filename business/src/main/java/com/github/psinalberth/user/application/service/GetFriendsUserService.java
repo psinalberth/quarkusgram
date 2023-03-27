@@ -20,9 +20,7 @@ public class GetFriendsUserService implements GetFriendsUseCase {
     @Override
     public Multi<Friend> getFriends(GetFriends getFriends) {
         return loadUserPort.loadById(getFriends.getUserId())
-                .onItem().ifNull()
-                    .failWith(() -> new UserNotFoundException("We could not find user with given id."))
-                .onItem().ifNotNull()
-                    .transformToMulti(loadFriendsPort::loadFriends);
+                .onItem().ifNull().failWith(() -> new UserNotFoundException("We could not find user with given id."))
+                .onItem().transformToMulti(loadFriendsPort::loadFriends);
     }
 }

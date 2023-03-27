@@ -1,9 +1,9 @@
 package com.github.psinalberth.user.application.service;
 
 import com.github.psinalberth.user.application.port.in.Friendship;
+import com.github.psinalberth.user.application.service.friendship.BeFriendsResult;
 import com.github.psinalberth.user.application.service.friendship.FriendshipRule;
 import com.github.psinalberth.user.domain.exception.UserNotFoundException;
-import com.github.psinalberth.user.domain.model.User;
 import io.smallrye.mutiny.Uni;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ public class FriendshipMaker {
 
     private final Set<FriendshipRule> friendshipRules;
 
-    public Uni<User> make(Friendship friendship) {
+    public Uni<BeFriendsResult> make(Friendship friendship) {
         return validate(friendship)
                 .chain(() -> friendshipRules.stream()
                         .filter(rule -> rule.canMake(friendship))

@@ -22,7 +22,7 @@ public class UserPanacheEntity {
     public String phoneNumber;
     public String password;
     public boolean privateProfile;
-    public Set<UserPanacheEntity> friends;
+    public Set<FriendPanacheEntity> friends;
     public Set<UserPanacheEntity> possibleFriends;
     public Set<UserPanacheEntity> blockedUsers;
 
@@ -64,14 +64,14 @@ public class UserPanacheEntity {
         return user;
     }
 
-    public boolean addFriend(UserPanacheEntity friend) {
+    public boolean addFriend(FriendPanacheEntity friend) {
         if (this.friends == null)
             this.friends = new HashSet<>();
 
         return this.friends.add(friend);
     }
 
-    public boolean removeFriend(UserPanacheEntity friend) {
+    public boolean removeFriend(FriendPanacheEntity friend) {
         if (this.friends == null)
             return false;
 
