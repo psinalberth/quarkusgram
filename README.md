@@ -1,62 +1,144 @@
-# quarkusgram
+# QuarkusGram
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+QuarkusGram is a Java-based backend application built with the Quarkus framework. The repository is designed to leverage reactive programming paradigms and provides features such as user management, secure password handling, and friendship functionalities. It utilizes modern technologies to ensure scalability, robustness, and developer productivity.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+---
 
-## Running the application in dev mode
+## Repository Overview
 
-You can run your application in dev mode that enables live coding using:
-```shell script
+### **Domain**
+QuarkusGram focuses on user-related operations. The core functionalities include:
+- **User Management**: Create, retrieve, and manage user profiles.
+- **Friendship Management**: Add friends and handle friendship requests between users.
+- **Secure Password Handling**: Encrypt and match passwords securely using Jasypt.
+- **Reactive Programming**: Implements reactive APIs and services for high performance.
+
+---
+
+## Technology Stack
+
+| **Technology**       | **Purpose**                                                                 |
+|-----------------------|-----------------------------------------------------------------------------|
+| **Quarkus**           | Framework for building Java applications with reactive capabilities.       |
+| **Java**              | Primary programming language (93.4%).                                      |
+| **Kotlin**            | Secondary programming language (6.6%).                                     |
+| **MongoDB with Panache** | Simplified database operations with MongoDB and repository patterns.     |
+| **RESTEasy Reactive** | High-performance RESTful API implementation.                               |
+| **Hibernate Validator** | Validates objects, fields, and method parameters for data integrity.      |
+| **Mutiny**            | Provides reactive programming support.                                     |
+
+---
+
+## Project Structure
+
+The repository follows a modular structure for separation of concerns:
+
+### **Modules**
+1. **`business`**: Contains core business logic, service interfaces, and domain models.
+   - **Key Files/Features**:
+     - `UserRepository`: Implements user persistence and interactions.
+     - `PasswordMatcherGateway`: Interface for matching encrypted passwords.
+   - **Dependencies**:
+     - Jakarta Validation API
+     - Hibernate Validator
+     - Mutiny
+
+2. **`application`**: Defines infrastructure, adapters, and configurations.
+   - **Key Files/Features**:
+     - `UserPanacheReactiveMongoRepository`: MongoDB-based persistence implementation.
+     - `UserConfig`: Provides dependency injection for services and repositories.
+     - `JasyptPasswordEncryptor`: Handles password encryption and matching.
+   - **Dependencies**:
+     - Jasypt for password encryption.
+     - Quarkus Arc for dependency injection.
+
+3. **`common`**: Shared utilities and configurations used across modules.
+
+---
+
+## Getting Started
+
+### **Prerequisites**
+- Java 11 or higher
+- MongoDB instance (required for persistence)
+- Gradle (build tool)
+
+### **Running the Application**
+To run the application in development mode:
+```bash
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
+### **Packaging and Running**
+To build the project and create a runnable JAR:
+```bash
 ./gradlew build
-```
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./gradlew build -Dquarkus.package.type=uber-jar
+java -jar build/quarkus-app/quarkus-run.jar
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
+### **Native Executable**
+To build a native executable:
+```bash
 ./gradlew build -Dquarkus.package.type=native
 ```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+Run the executable:
+```bash
+./build/quarkusgram-0.0.1-runner
 ```
 
-You can then execute your native executable with: `./build/quarkusgram-0.0.1-runner`
+---
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/gradle-tooling.
+## Features
+
+### **User Management**
+- Create, retrieve, and manage user profiles.
+- Handles secure password encryption and matching.
+
+### **Friendship Management**
+- Add friends and manage friendship requests.
+- Reactive APIs for high-performance operations.
+
+### **Reactive Programming**
+- Built on Mutiny and RESTEasy Reactive for reactive APIs.
+- Supports event-driven and asynchronous programming.
+
+---
+
+## Configuration
+
+### **MongoDB Configuration**
+The application uses MongoDB with Panache for persistence. Ensure your MongoDB instance is running and accessible.
+
+### **Dependency Injection**
+Quarkus Arc is used for dependency injection. Services and repositories are configured in the `UserConfig` class.
+
+---
 
 ## Related Guides
 
-- MongoDB with Panache ([guide](https://quarkus.io/guides/mongodb-panache)): Simplify your persistence code for MongoDB via the active record or the repository pattern
-- Hibernate Validator ([guide](https://quarkus.io/guides/validation)): Validate object properties (field, getter) and method parameters for your beans (REST, CDI, JPA)
-- RESTEasy Reactive ([guide](https://quarkus.io/guides/resteasy-reactive)): A JAX-RS implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
+- [MongoDB with Panache](https://quarkus.io/guides/mongodb-panache): Simplifies MongoDB database operations.
+- [Hibernate Validator](https://quarkus.io/guides/validation): Ensures data integrity through validation.
+- [RESTEasy Reactive](https://quarkus.io/guides/resteasy-reactive): Build reactive RESTful services.
 
-## Provided Code
+---
 
-### RESTEasy Reactive
+## Contributing
 
-Easily start your Reactive RESTful Web Services
+We welcome contributions to QuarkusGram! To get started:
+1. Fork the repository.
+2. Create a feature branch.
+3. Submit a Pull Request with a detailed explanation of changes.
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+For major changes, please open an issue first to discuss your ideas.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Contact
+
+For questions or support, please open an issue in this repository.
